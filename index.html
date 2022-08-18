@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tree-to-list@3.0.2/dist/treeToList.min.js"></script>
+</head>
+
+<body>
+    <script>
+        var markdownContent = `
+New Music
+===========
+### Rap
+- [Eminem - Not Afraid (Official Video) - YouTube](https://www.youtube.com/watch?v=j5-yKhDd64s)
+- [50 Cent ft. Chris Brown - I'm The Man (Official Video) - YouTube](https://www.youtube.com/watch?v=ZB7Xjd34pjo)
+
+### Metal
+- [Architects - "Impermanence" (feat. Winston McCall) (Full Album Stream) - YouTube](https://www.youtube.com/watch?v=8_GIEgM7npE)
+
+### Classical
+- [Serenade - YouTube](https://www.youtube.com/watch?v=WXh0LN_3l80)
+`;
+        const rootList = marked.lexer(markdownContent);
+        const nextSong = treeToList(treeToList(treeToList(rootList, 'tokens'), 'items'), 'tokens').filter(item => item.type == "link").sort(() => Math.random() - 0.5)[0];
+        
+        const a = document.createElement("a");
+        a.href = nextSong.href;
+        a.target = "_blank";
+        a.innerText = nextSong.text;
+        
+        document.body.innerHTML = "";
+        document.body.appendChild(a);
+
+        // [{url: "a", played: false}, {url: "b", played: true}, {url: "c", played: false}].filter(a => a.played == false).sort(() => Math.random() - 0.5)[0]
+    </script>
+</body>
+
+</html>
